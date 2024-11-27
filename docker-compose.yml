@@ -1,7 +1,19 @@
 version: '3.9'
 
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/sensors/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./sensors:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - API_TOKEN=API_TOKEN
+    networks:
+      - kube-fun
+
 networks:
   kube-fun:
-
-services:
-  ...
