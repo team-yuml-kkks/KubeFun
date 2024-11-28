@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  web:
+  sensors:
     build:
       context: .
       dockerfile: docker/sensors/Dockerfile
@@ -12,6 +12,23 @@ services:
       - "8000:8000"
     environment:
       - API_TOKEN=API_TOKEN
+    networks:
+      - kube-fun
+
+  notify:
+    build:
+      context: .
+      dockerfile: docker/notify/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./notify:/code
+    ports:
+      - "8001:8001"
+    environment:
+      - API_TOKEN=API_TOKEN
+      - EMAIL_HOST_USER=notify@gmail.com
+      - EMAIL_HOST_PASSWORD=notify
+      - NOTIFICATION_EMAIL=notify@example.com
     networks:
       - kube-fun
 
