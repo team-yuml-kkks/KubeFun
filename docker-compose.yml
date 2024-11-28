@@ -15,5 +15,19 @@ services:
     networks:
       - kube-fun
 
+  read-model:
+    build:
+      context: .
+      dockerfile: docker/readmodel/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./readmodel:/code
+    ports:
+      - "8001:8001"
+    environment:
+      - API_TOKEN=API_TOKEN
+    networks:
+      - kube-fun
+
 networks:
   kube-fun:
